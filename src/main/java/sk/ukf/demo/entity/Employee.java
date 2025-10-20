@@ -1,10 +1,13 @@
 package sk.ukf.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "employee")
@@ -17,18 +20,33 @@ public class Employee {
     public Employee () {
     }
 
+    @NotBlank(message = "First name is required.")
+    @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters.")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotBlank(message = "Last name is required.")
+    @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters.")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotNull(message = "Birth date is required.")
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @NotBlank(message = "Email is required.")
+    @Pattern(
+            regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "Please enter a valid email address (e.g., name@domain.com)."
+    )
     @Column(name = "email")
     private String email;
 
+    @NotBlank(message = "Phone number is required.")
+    @Pattern(
+            regexp = "^\\+?\\d{1,3}?[- .]?\\(?\\d{1,4}\\)?[- .]?\\d{1,4}[- .]?\\d{1,9}$",
+            message = "Please enter a valid phone number (e.g., +421 903 123 456 or 0903-123-456)."
+    )
     @Column(name = "phone")
     private String phone;
 
