@@ -1,10 +1,7 @@
 package sk.ukf.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,6 +36,7 @@ public class Employee {
             regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
             message = "Please enter a valid email address (e.g., name@domain.com)."
     )
+    @Size(max = 255, message = "Email cannot exceed 255 characters.")
     @Column(name = "email")
     private String email;
 
