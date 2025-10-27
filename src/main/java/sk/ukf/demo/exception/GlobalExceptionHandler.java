@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import sk.ukf.demo.rest.ApiResponse;
+import sk.ukf.demo.payload.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+            --success-hover: #059669;
+            --border: #475569;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+            --success-hover: #059669;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideIn 0.6s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .theme-toggle {
+            width: 60px;
+            height: 30px;
+            background: var(--bg-card);
+            border-radius: 30px;
+            border: 2px solid var(--border);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-toggle-slider {
+            width: 22px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        [data-theme="light"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .form-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .radio-option label:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button,
+        .back-link {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--success), #34d399);
+            color: white;
+            flex: 1;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .back-link:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+<div class="container">
+    <div class="header">
+        <h1>✨ Add New Employee</h1>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div class="theme-toggle-slider">🌙</div>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/employees}" th:object="${employee}" method="post">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" th:field="*{firstName}" placeholder="Enter first name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" th:field="*{lastName}" placeholder="Enter last name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Job Title</label>
+                <select th:field="*{jobTitle}" required>
+                    <option value="" disabled selected>Select a job title</option>
+                    <option th:each="title : ${jobTitles}"
+                            th:value="${title}"
+                            th:text="${title}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Employment Type</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" th:field="*{fullTime}" value="Full-time" id="fulltime">
+                        <label for="fulltime">💼 Full-time</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" th:field="*{fullTime}" value="Part-time" id="parttime">
+                        <label for="parttime">⏰ Part-time</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" th:field="*{fullTime}" value="Contract" id="contract">
+                        <label for="contract">📝 Contract</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" th:field="*{fullTime}" value="Intern" id="intern">
+                        <label for="intern">🎓 Intern</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <a href="/employees" class="back-link">← Back to list</a>
+                <button type="submit">Save Employee ✓</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const slider = document.querySelector('.theme-toggle-slider');
+
+        body.setAttribute('data-theme', newTheme);
+        slider.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+
+        localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+    document.querySelector('.theme-toggle-slider').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+</script>
+</body>
+</html>

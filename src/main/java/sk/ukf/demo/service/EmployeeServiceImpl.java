@@ -3,7 +3,7 @@ package sk.ukf.demo.service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sk.ukf.demo.dao.EmployeeRepository;
+import sk.ukf.demo.repository.EmployeeRepository;
 import sk.ukf.demo.entity.Employee;
 import sk.ukf.demo.exception.ObjectNotFoundException;
 import sk.ukf.demo.exception.EmailAlreadyExistsException;

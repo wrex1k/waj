@@ -1,4 +1,4 @@
-package sk.ukf.demo.dao;
+package sk.ukf.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import sk.ukf.demo.entity.Employee;

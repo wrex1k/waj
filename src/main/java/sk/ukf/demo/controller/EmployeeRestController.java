@@ -1,4 +1,4 @@
-package sk.ukf.demo.rest;
+package sk.ukf.demo.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.ukf.demo.entity.Employee;
+import sk.ukf.demo.payload.ApiResponse;
 import sk.ukf.demo.service.EmployeeService;
 
 import java.util.List;

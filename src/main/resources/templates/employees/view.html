@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+            --border: #475569;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #10b981;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideIn 0.6s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .theme-toggle {
+            width: 60px;
+            height: 30px;
+            background: var(--bg-card);
+            border-radius: 30px;
+            border: 2px solid var(--border);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-toggle-slider {
+            width: 22px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        [data-theme="light"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .details-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px var(--shadow);
+            border: 1px solid var(--border);
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .employee-avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .employee-name {
+            color: white;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .employee-role {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.125rem;
+        }
+
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: start;
+            padding: 1.25rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .detail-item:nth-child(1) { animation-delay: 0.1s; }
+        .detail-item:nth-child(2) { animation-delay: 0.2s; }
+        .detail-item:nth-child(3) { animation-delay: 0.3s; }
+        .detail-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-item:hover {
+            transform: translateX(5px);
+            border-color: var(--accent);
+        }
+
+        .detail-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .badge-fulltime {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 2px solid var(--success);
+        }
+
+        .badge-parttime {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .badge-contract {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+            border: 2px solid #a855f7;
+        }
+
+        .badge-intern {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 2px solid #fbbf24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            animation: slideUp 0.6s ease 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-primary:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .employee-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+
+            .employee-name {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+<div class="container">
+    <div class="header">
+        <h1>📋 Employee Details</h1>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div class="theme-toggle-slider">🌙</div>
+        </div>
+    </div>
+
+    <div class="details-card">
+        <div class="card-header">
+            <div class="employee-avatar">👤</div>
+            <div class="employee-name" th:text="${employee.firstName + ' ' + employee.lastName}">John Doe</div>
+            <div class="employee-role" th:text="${employee.jobTitle}">Software Engineer</div>
+        </div>
+
+        <div class="card-body">
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-icon">🆔</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Employee ID</div>
+                        <div class="detail-value" th:text="${employee.id}">12345</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">👤</div>
+                    <div class="detail-content">
+                        <div class="detail-label">First Name</div>
+                        <div class="detail-value" th:text="${employee.firstName}">John</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">👥</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Last Name</div>
+                        <div class="detail-value" th:text="${employee.lastName}">Doe</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">💼</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Job Title</div>
+                        <div class="detail-value" th:text="${employee.jobTitle}">Software Engineer</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">📊</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Employment Type</div>
+                        <div class="detail-value">
+                                <span class="badge"
+                                      th:classappend="${employee.fullTime == 'Full-time' ? 'badge-fulltime' :
+                                                       employee.fullTime == 'Part-time' ? 'badge-parttime' :
+                                                       employee.fullTime == 'Contract' ? 'badge-contract' : 'badge-intern'}"
+                                      th:text="${employee.fullTime}">
+                                    Full-time
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/employees" class="btn btn-primary">
+                    ← Back to List
+                </a>
+                <a th:href="@{'/employees/edit/' + ${employee.id}}" class="btn btn-edit">
+                    ✏️ Edit Employee
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const slider = document.querySelector('.theme-toggle-slider');
+
+        body.setAttribute('data-theme', newTheme);
+        slider.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+
+        localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+    document.querySelector('.theme-toggle-slider').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+</script>
+</body>
+</html>

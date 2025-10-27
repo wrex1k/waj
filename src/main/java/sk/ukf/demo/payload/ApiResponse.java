@@ -1,4 +1,4 @@
-package sk.ukf.demo.rest;
+package sk.ukf.demo.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,17 +16,9 @@ public class ApiResponse<T> {
         this.datetime = datetime;
     }
 
-    public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(data, null, LocalDateTime.now());
-    }
-
-    public static <T> ApiResponse<T> success(T data, String message) {
-        return new ApiResponse<>(data, message, LocalDateTime.now());
-    }
-
-    public static <T> ApiResponse<T> error(String message) {
-        return new ApiResponse<>(null, message, LocalDateTime.now());
-    }
+    public static <T> ApiResponse<T> success(T data) {return new ApiResponse<>(data, null, LocalDateTime.now());}
+    public static <T> ApiResponse<T> success(T data, String message) {return new ApiResponse<>(data, message, LocalDateTime.now());}
+    public static <T> ApiResponse<T> error(String message) {return new ApiResponse<>(null, message, LocalDateTime.now());}
 
     public String getMessage() { return message; }
     public T getData() { return data; }
