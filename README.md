@@ -1,22 +1,25 @@
-### 🧪 API Testing with Postman  
+## 🌗 Thymeleaf Employee Dashboard
 
-1. **Get All Employees (GET)**  
-   ![Get All Employees](https://github.com/wrex1k/waj/blob/master/postmanValidation/findAll.png)
+### 🖤 Dark Mode  
 
-2. **Get Employee by ID (GET)**  
-   ![Get Employee](https://github.com/wrex1k/waj/blob/master/postmanValidation/findByID.png)
+1. **Employee List**  
+   ![Employee List – Dark](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/dark_list.png)
 
-3. **Add Employee (POST)**  
-   ![Add Employee](https://github.com/wrex1k/waj/blob/master/postmanValidation/addEmployee.png)
+2. **Add Employee Form**  
+   ![Add Employee – Dark](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/dark_add.png)
 
-4. **Add Employee (Validation) (POST)**  
-   ![Add Employee (Validation)](https://github.com/wrex1k/waj/blob/master/postmanValidation/addEmployee%20(validation).png)
+3. **Employee Details**  
+   ![Employee Details – Dark](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/dark_details.png)
 
-5 **Update Employee (PUT)**  
-   ![Update Employee](https://github.com/wrex1k/waj/blob/master/postmanValidation/updateEmployee.png)
+---
 
-6. **Delete Employee (DELETE)**  
-   ![Delete Employee](https://github.com/wrex1k/waj/blob/master/postmanValidation/deleteEmployee.png)
+### 🤍 Light Mode  
 
-7. **Search Employees by Name (GET)**  
-![Search Employees by Name](https://github.com/wrex1k/waj/blob/master/postmanValidation/employeeSearch.png)
+1. **Employee List**  
+   ![Employee List – Light](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/light_list.png)
+
+2. **Add Employee Form**  
+   ![Add Employee – Light](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/light_add.png)
+
+3. **Employee Details**  
+   ![Employee Details – Light](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/light_details.png)
