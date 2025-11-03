@@ -34,13 +34,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public Employee save(Employee employee) {
-        if (employee.getId() == 0) {
+        if (employee.getId() == null) {
             if (employeeRepository.existsByEmail(employee.getEmail())) {
                 throw new EmailAlreadyExistsException(employee.getEmail());
             }
         } else {
             Employee existingWithEmail = employeeRepository.findByEmail(employee.getEmail()).orElse(null);
-            if (existingWithEmail != null && existingWithEmail.getId() != employee.getId()) {
+            if (existingWithEmail != null && !existingWithEmail.getId().equals(employee.getId())) {
                 throw new EmailAlreadyExistsException(employee.getEmail());
             }
         }

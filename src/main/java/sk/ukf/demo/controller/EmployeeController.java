@@ -45,6 +45,14 @@ public class EmployeeController {
         return "employees/form";
     }
 
+    @GetMapping("/{id}/edit")
+    public String showUpdateForm(@PathVariable int id, Model model) {
+        Employee employee = employeeService.findById(id);
+        model.addAttribute("employee", employee);
+        model.addAttribute("jobTitles", jobTitles);
+        return "employees/form";
+    }
+
     @PostMapping
     public String createEmployee(@ModelAttribute("employee") Employee employee) {
         employeeService.save(employee);
