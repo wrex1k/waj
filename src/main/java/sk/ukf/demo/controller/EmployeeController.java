@@ -1,10 +1,13 @@
 package sk.ukf.demo.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sk.ukf.demo.entity.Employee;
+import sk.ukf.demo.exception.EmailAlreadyExistsException;
 import sk.ukf.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -54,9 +57,20 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public String createEmployee(@ModelAttribute("employee") Employee employee) {
-        employeeService.save(employee);
-        return "redirect:/employees";
+    public String createEmployee(@Valid @ModelAttribute("employee") Employee employee, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("jobTitles", jobTitles);
+            return "employees/form";
+        }
+
+        try {
+            employeeService.save(employee);
+            return "redirect:/employees";
+        } catch (EmailAlreadyExistsException ex) {
+            bindingResult.rejectValue("email", "email.exist", ex.getMessage());
+            model.addAttribute("jobTitles", jobTitles);
+            return "employees/form";
+        }
     }
 
     @GetMapping("/delete/{id}")

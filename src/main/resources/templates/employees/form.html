@@ -15,6 +15,7 @@
             --text-secondary: #cbd5e1;
             --accent: #3b82f6;
             --success: #10b981;
+            --error: #ef4444;
             --border: #475569;
             --shadow: rgba(0, 0, 0, 0.3);
         }
@@ -27,6 +28,7 @@
             --text-secondary: #475569;
             --border: #e2e8f0;
             --shadow: rgba(0, 0, 0, 0.1);
+            --error: #dc2626;
         }
 
         body {
@@ -100,6 +102,16 @@
             transition: all 0.3s ease;
         }
 
+        .error-summary {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--error);
+            color: var(--error);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
         form {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -141,6 +153,13 @@
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            font-weight: 500;
         }
 
         .radio-group {
@@ -246,41 +265,49 @@
 
             <div>
                 <label><span class="icon">👤</span> First Name</label>
-                <input type="text" th:field="*{firstName}" placeholder="Enter first name" required>
+                <input type="text" th:field="*{firstName}" placeholder="Enter first name">
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error-msg"></p>
             </div>
 
             <div>
                 <label><span class="icon">🧾</span> Last Name</label>
-                <input type="text" th:field="*{lastName}" placeholder="Enter last name" required>
+                <input type="text" th:field="*{lastName}" placeholder="Enter last name">
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error-msg"></p>
             </div>
 
             <div>
                 <label><span class="icon">🎂</span> Birth Date</label>
-                <input type="date" th:field="*{birthDate}" required>
+                <input type="date" th:field="*{birthDate}">
+                <p th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="error-msg"></p>
             </div>
 
             <div>
                 <label><span class="icon">✉️</span> Email</label>
-                <input type="email" th:field="*{email}" placeholder="Enter email" required>
+                <input type="email" th:field="*{email}" placeholder="Enter email">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg"></p>
             </div>
 
             <div>
                 <label><span class="icon">📞</span> Phone</label>
-                <input type="text" th:field="*{phone}" placeholder="+421 900 123 456" required>
+                <input type="text" th:field="*{phone}" placeholder="+421 900 123 456">
+                <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error-msg"></p>
             </div>
 
             <div>
                 <label><span class="icon">💶</span> Salary (€)</label>
-                <input type="number" th:field="*{salary}" step="0.01" min="0" placeholder="0.00" required>
+                <input type="number" th:field="*{salary}" placeholder="0.00">
+                <p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error-msg"></p>
             </div>
 
-            <div>
+            <div style="grid-column: span 2;">
                 <label><span class="icon">💼</span> Job Title</label>
-                <select th:field="*{jobTitle}" required>
+                <select th:field="*{jobTitle}">
                     <option value="" disabled>Select a job title</option>
                     <option th:each="title : ${jobTitles}" th:value="${title}" th:text="${title}"></option>
                 </select>
+                <p th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}" class="error-msg"></p>
             </div>
+
 
             <div class="radio-group">
                 <div class="radio-option">
@@ -299,6 +326,10 @@
                     <input type="radio" th:field="*{fullTime}" value="Intern" id="intern">
                     <label for="intern">🎓 Intern</label>
                 </div>
+            </div>
+
+            <div th:if="${#fields.hasAnyErrors()}" class="error-summary" style="grid-column: span 2;">
+                ⚠️ Please correct the highlighted fields before submitting.
             </div>
 
             <div class="button-group">

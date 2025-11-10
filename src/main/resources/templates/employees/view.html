@@ -196,6 +196,11 @@
         .badge-contract { background: rgba(168,85,247,0.2); color: #a855f7; border: 2px solid #a855f7; }
         .badge-intern { background: rgba(251,191,36,0.2); color: #fbbf24; border: 2px solid #fbbf24; }
 
+        /* Employment type full width */
+        .employment-type {
+            grid-column: span 2;
+        }
+
         .action-buttons {
             display: flex;
             gap: 1rem;
@@ -247,11 +252,21 @@
                 <div class="detail-item"><div class="detail-icon">📞</div><div><div class="detail-label">Phone</div><div class="detail-value" th:text="${employee.phone}">+421 900 123 456</div></div></div>
                 <div class="detail-item"><div class="detail-icon">💼</div><div><div class="detail-label">Job Title</div><div class="detail-value" th:text="${employee.jobTitle}">Software Engineer</div></div></div>
                 <div class="detail-item"><div class="detail-icon">💰</div><div><div class="detail-label">Salary</div><div class="detail-value" th:text="${#numbers.formatDecimal(employee.salary, 2, 'COMMA', 2, 'POINT')} + ' €'">1500.00 €</div></div></div>
-                <div class="detail-item"><div class="detail-icon">📊</div><div><div class="detail-label">Employment Type</div><div class="detail-value"><span class="badge"
-                                                                                                                                                             th:classappend="${employee.fullTime == 'Full-time' ? 'badge-fulltime' :
+
+                <!-- Employment type full width -->
+                <div class="detail-item employment-type">
+                    <div class="detail-icon">📊</div>
+                    <div>
+                        <div class="detail-label">Employment Type</div>
+                        <div class="detail-value">
+                            <span class="badge"
+                                  th:classappend="${employee.fullTime == 'Full-time' ? 'badge-fulltime' :
                                         employee.fullTime == 'Part-time' ? 'badge-parttime' :
                                         employee.fullTime == 'Contract' ? 'badge-contract' : 'badge-intern'}"
-                                                                                                                                                             th:text="${employee.fullTime}">Full-time</span></div></div></div>
+                                  th:text="${employee.fullTime}">Full-time</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="action-buttons">
