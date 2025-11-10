@@ -11,7 +11,10 @@
 3. **Edit Employee Form**  
    ![Edit Employee – Dark](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/dark_edit.png)
 
-4. **Employee Details**  
+4. **Edit Employee – Validation Errors**  
+   ![Edit Employee – Dark (Errors)](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/dark_edit_errors.png)
+
+5. **Employee Details**  
    ![Employee Details – Dark](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/dark_details.png)
 
 ---
@@ -27,5 +30,8 @@
 3. **Edit Employee Form**  
    ![Edit Employee – Light](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/light_edit.png)
 
-4. **Employee Details**  
+4. **Edit Employee – Validation Errors**  
+   ![Edit Employee – Light (Errors)](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/light_edit_errors.png)
+
+5. **Employee Details**  
    ![Employee Details – Light](https://github.com/wrex1k/waj/blob/master/img/thymeleafUI/light_details.png)
